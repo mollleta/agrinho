@@ -1,1 +1,52 @@
+// js/script.js
 
+document.addEventListener('DOMContentLoaded', () => {
+    const temaCssLink = document.getElementById('tema-css');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const heroCidade = document.getElementById('hero-cidade');
+    const featuresCidade = document.getElementById('features-cidade');
+    const heroCampo = document.getElementById('hero-campo');
+    const featuresCampo = document.getElementById('features-campo');
+
+    // Função para ativar um tema
+    function activateTheme(themeName) {
+        // Atualiza o link do CSS
+        temaCssLink.href = `css/tema-${themeName}.css`;
+
+        // Esconde todas as seções de conteúdo e mostra as do tema ativo
+        if (themeName === 'cidade') {
+            heroCidade.style.display = 'flex';
+            featuresCidade.style.display = 'block';
+            heroCampo.style.display = 'none';
+            featuresCampo.style.display = 'none';
+        } else if (themeName === 'campo') {
+            heroCidade.style.display = 'none';
+            featuresCidade.style.display = 'none';
+            heroCampo.style.display = 'flex';
+            featuresCampo.style.display = 'block';
+        }
+
+        // Atualiza a classe 'active' nos links de navegação
+        navLinks.forEach(link => {
+            if (link.dataset.tema === themeName) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    // Adiciona evento de clique aos links de navegação
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Evita o comportamento padrão do link
+            const tema = e.target.dataset.tema;
+            if (tema) {
+                activateTheme(tema);
+            }
+        });
+    });
+
+    // Ativa o tema da cidade por padrão ao carregar a página
+    activateTheme('cidade');
+});
